@@ -1,0 +1,31 @@
+plugins {
+  id 'java'
+  id 'com.github.johnrengelman.shadow' version '2.0.4'
+}
+
+ext.versions = [
+	flink   : '1.5.+',
+	logback : '1.2.+',
+	kafka   : '0.10',
+]
+
+repositories {
+	jcenter()
+}
+
+dependencies {
+	compileOnly "org.apache.flink:flink-streaming-java_2.11:${versions.flink}"
+
+	compile "org.apache.flink:flink-connector-kafka-${versions.kafka}_2.11:${versions.flink}"
+	compile "org.apache.flink:flink-connector-filesystem_2.11:${versions.flink}"
+
+	testRuntime "ch.qos.logback:logback-classic:${versions.logback}"
+}
+
+shadowJar {
+	zip64 = true
+}
+
+wrapper {
+	gradleVersion = 4.8
+}
